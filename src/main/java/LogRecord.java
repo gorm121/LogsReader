@@ -15,15 +15,15 @@ public class LogRecord {
     }
     public String getType(){
         if (type != null) return type;
-        return "NonType";
+        return "NoneType";
     }
     public String getCode(){
         if (code != null) return code;
-        return "NonCode";
+        return "NoneCode";
     }
     public String getMessage(){
         if (message != null) return message;
-        return "NoMessage";
+        return "NoneMessage";
     }
 
     LogRecord(long timestamp, String type, String code, String message){
@@ -39,16 +39,22 @@ public class LogRecord {
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 
+    public static String getFormattedTimestamp(long timestamp) {
+        return Instant.ofEpochSecond(timestamp)
+                .atZone(ZoneId.systemDefault())
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    }
+
     public String toStringFile(){
-        return timestamp + " " + type + " " + code + " " + message + "\n";
+        return timestamp + "-" + type + "-" + code + "-" + message + "\n";
     }
 
     public String toShow() {
         return getFormattedTimestamp() + " " + type + " " + code + " " + message;
     }
 
-    @Override
-    public String toString() {
+
+    public String toStr() {
         return getTimestamp() + " " + getType() + " " + getCode() + " " + getMessage();
     }
 }
