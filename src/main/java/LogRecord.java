@@ -2,6 +2,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class LogRecord {
     private final long timestamp;
@@ -34,15 +35,11 @@ public class LogRecord {
     }
 
     public String getFormattedTimestamp() {
-        return Instant.ofEpochSecond(timestamp)
-                .atZone(ZoneId.systemDefault())
-                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        return new Date(timestamp * 1000).toString();
     }
 
     public static String getFormattedTimestamp(long timestamp) {
-        return Instant.ofEpochSecond(timestamp)
-                .atZone(ZoneId.systemDefault())
-                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        return new Date(timestamp * 1000).toString();
     }
 
     public String toStringFile(){

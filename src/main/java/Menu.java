@@ -67,7 +67,7 @@ public class Menu {
             System.out.print("Введите год: ");
             int choice = InputChecker.getValidInt(2022, 2030, scanner);
 
-            LogFilePrinter.logFilePrinterForYear(logs, totalRecords, choice);
+            LogFilePrinter.logFilePrinterForYear(logs, choice);
             return;
         }
     }
@@ -109,39 +109,42 @@ public class Menu {
     private void LogsMenuForValid(ArrayList<LogRecord> logs, int currentPage) {
         currentPage = 1;
         boolean inLogsMenu = true;
+        if (totalRecordsValid == 0) {
+            System.out.println("Логи отсутствуют");
+            return;
+        }
+        LogFilePrinter.logFilePrinterForValid(logs,1, totalRecordsValid);
 
         while (inLogsMenu) {
-            if (totalRecordsValid == 0) {
-                System.out.println("Логи отсутствуют");
-                return;
-            }
-
-            LogFilePrinter.logFilePrinterForValid(logs,currentPage, totalRecordsValid);
-
             System.out.println("\n1. Следующая страница");
             System.out.println("2. Предыдущая страница");
             System.out.println("3. Вернуться в главное меню");
             System.out.print("Ваше действие-> ");
-
             int choice = InputChecker.getValidInt(1, 3, scanner);
-
+            int checkPage = currentPage;
             switch (choice) {
                 case 1 -> {
-                    if (totalRecordsValid/10 + 1 > currentPage) {
+                    if (((double)totalRecordsValid/10) > currentPage) {
                         currentPage++;
+                        LogFilePrinter.logFilePrinterForValid(logs,currentPage, totalRecordsValid);
                     }
                     else System.out.println("Больше нет логов");
                 }
                 case 2 -> {
                     currentPage = Math.max(1, currentPage - 1);
+                    if (!(checkPage == currentPage))
+                        LogFilePrinter.logFilePrinterForValid(logs,currentPage, totalRecordsValid);
+                    else System.out.println("Больше нет логов");
                 }
                 case 3 -> inLogsMenu = false;
             }
+
+
         }
     }
 
     public static void showCurrentPage(int totalRecords, int currentPage){
-        System.out.println("\nТекущая страница: " + currentPage + " из: " + (int)(Math.ceil((totalRecords/10) + 0.5)));
+        System.out.println("\nТекущая страница: " + currentPage + " из: " + (int)(Math.ceil(((double) totalRecords/10))));
     }
     private void SortMenu() {
         if (totalRecordsValid == 0) {

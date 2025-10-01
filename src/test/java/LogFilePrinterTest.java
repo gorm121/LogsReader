@@ -104,7 +104,7 @@ class LogFilePrinterTest {
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outputStream));
         try {
-            LogFilePrinter.logFilePrinterForYear(records,records.size(),2000);
+            LogFilePrinter.logFilePrinterForYear(records,2000);
             String out = outputStream.toString();
 
             assertFalse(out.contains("2000"));

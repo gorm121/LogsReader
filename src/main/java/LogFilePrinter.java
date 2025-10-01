@@ -31,18 +31,20 @@ public class LogFilePrinter {
         System.out.println("---------------------------------------------------");
         System.out.println("| Время            | Тип | Код | Сообщение        |");
         System.out.println("---------------------------------------------------");
-        for (int i = 0; i < logRecords.size(); i++){
-            if (i < currentPage && i >= currentPage - 10 && logRecords.get(i).contains("-"))
-                if (LogFileReader.checkTimestamp(logRecords.get(i).substring(0,logRecords.get(i).indexOf("-"))))
-                        System.out.println(LogFileReader.toValidStringLog(logRecords.get(i)));
-            System.out.println(logRecords.get(i));
+        for (int i = currentPage - 10; i < currentPage && i < logRecords.size(); i++){
+            String record = logRecords.get(i);
+            if (record.contains("-") && LogFileReader.checkTimestamp(record.substring(0, record.indexOf("-")))) {
+                System.out.println(LogFileReader.toValidStringLog(record));
+            } else {
+                System.out.println(record);
+            }
         }
         System.out.println("---------------------------------------------------");
     }
 
 
 
-    public static void logFilePrinterForYear(ArrayList<LogRecord> logRecords, int totalRecords, int year){
+    public static void logFilePrinterForYear(ArrayList<LogRecord> logRecords, int year){
         if (logRecords.isEmpty()) {
             System.out.println("Логов нет");
             return;

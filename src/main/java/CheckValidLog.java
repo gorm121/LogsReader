@@ -3,7 +3,7 @@ public class CheckValidLog {
     public static LogRecord parseLine(String line){
         try {
             String[] parts = line.split("-" ,4);
-            if (parts.length < 3 ) return null;
+            if (parts.length < 3 || (line.chars().filter(x -> x == ' ').count() > 3 || line.chars().filter(x -> x == '-').count() > 3)) return null;
 
             return new LogRecord(
                     Long.parseLong(parts[0]),

@@ -24,7 +24,7 @@ public class LogFileReader {
                     logRecords.add(record);
                     logValidRecordsCount++;
                 }
-                else {
+                else if (!line.isEmpty()) {
                     logInvalidRecords.add(line);
                     logInvalidRecordsCount++;
                 }
